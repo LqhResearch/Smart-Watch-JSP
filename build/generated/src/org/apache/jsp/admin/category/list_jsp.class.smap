@@ -1,0 +1,13 @@
+SMAP
+list_jsp.java
+JSP
+*S JSP
+*F
++ 0 list.jsp
+admin/category/list.jsp
+*L
+1:44
+2:45,2
+3,19:47
+21:65
+*E
