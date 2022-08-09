@@ -1,7 +1,7 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix = "c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
-<%@ page import="config.DB" %>
+<%@ page contentType = "text/html" pageEncoding = "UTF-8"%>
+<%@ page import = "config.DB" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
 
 <sql:setDataSource var = "db" driver = "com.mysql.jdbc.Driver"
                    url = "jdbc:mysql://${DB.HOST}:${DB.PORT}/${DB.DBNAME}"
@@ -36,7 +36,7 @@
 <% }%>
 
 <% if (request.getParameter("edit-id") != null) {%>
-<sql:query dataSource = "${db}" var = "editData" maxRows="1">select * from categories where CategoryID = <%=request.getParameter("edit-id")%></sql:query>
+<sql:query dataSource = "${db}" var = "editData">select * from categories where CategoryID = <%=request.getParameter("edit-id")%></sql:query>
 <% }%>
 
 <jsp:include page="/admin/header.jsp"></jsp:include>

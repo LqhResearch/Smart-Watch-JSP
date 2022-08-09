@@ -1,10 +1,13 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page contentType = "text/html" pageEncoding = "UTF-8"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
 
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Smart Watch Store</title>
         <link rel="icon" href="/assets/img/favicon.png">
 
@@ -14,6 +17,9 @@
         <link rel="stylesheet" href="/template/adminlte/plugins/fontawesome-free/css/all.min.css">
         <!-- Theme style -->
         <link rel="stylesheet" href="/template/adminlte/dist/css/adminlte.min.css">
+        <!-- Select2 -->
+        <link rel="stylesheet" href="/template/adminlte/plugins/select2/css/select2.min.css">
+        <link rel="stylesheet" href="/template/adminlte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     </head>
     <body class="hold-transition sidebar-mini">
         <div class="wrapper">
@@ -49,7 +55,7 @@
                             <img src="/assets/img/user.png" class="img-circle elevation-2" alt="User Image">
                         </div>
                         <div class="info">
-                            <a href="#" class="d-block">Lý Quốc Hưng</a>
+                            <a href="#" class="d-block"><%=request.getSession().getAttribute("fullname")%></a>
                         </div>
                     </div>
 
@@ -69,9 +75,45 @@
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="/admin/" class="nav-link">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
                                     <p>Bảng điều khiển</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/category/list.jsp" class="nav-link">
+                                    <i class="nav-icon fas fa-th"></i>
+                                    <p>Danh mục</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/watch/list.jsp" class="nav-link">
+                                    <i class="nav-icon fas fa-clock"></i>
+                                    <p>Đồng hồ</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/order/list.jsp" class="nav-link">
+                                    <i class="nav-icon fas fa-boxes"></i>
+                                    <p>Đơn hàng</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/slider/list.jsp" class="nav-link">
+                                    <i class="nav-icon fas fa-images"></i>
+                                    <p>Slider</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/account/list.jsp" class="nav-link">
+                                    <i class="nav-icon fas fa-user-circle"></i>
+                                    <p>Tài khoản</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/" class="nav-link">
+                                    <i class="nav-icon fas fa-home"></i>
+                                    <p>Trang mua hàng</p>
                                 </a>
                             </li>
                         </ul>
