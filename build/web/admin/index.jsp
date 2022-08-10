@@ -84,7 +84,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header bg-info">
-                        <h5 class="mb-0">Số lượng viên chức của từng bộ môn</h5>
+                        <h5 class="mb-0">Số lượng đồng hồ theo từng danh mục</h5>
                     </div>
                     <div class="card-body">
                         <canvas id="canvas1"></canvas>
@@ -94,10 +94,20 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header bg-info">
-                        <h5 class="mb-0">Số lượng viên chức của từng chức vụ</h5>
+                        <h5 class="mb-0">Số lượng đơn hàng theo từng tháng</h5>
                     </div>
                     <div class="card-body">
                         <canvas id="canvas2"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-info">
+                        <h5 class="mb-0">Tổng doanh thu theo từng tháng</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="canvas3"></canvas>
                     </div>
                 </div>
             </div>
@@ -107,35 +117,105 @@
 <jsp:include page="footer.jsp"></jsp:include>
 
 <sql:query dataSource = "${db}" var = "canvas1">select CategoryName, COUNT(watches.WatchID) as count from categories left join watches on categories.CategoryID = watches.WatchID GROUP BY CategoryName;</sql:query>
+<sql:query dataSource = "${db}" var = "canvas2">select month.Value, COUNT(OrderID) as count from month left join orders on month.Value = MONTH(orders.CreatedAt) WHERE YEAR(NOW()) group by month.Value</sql:query>
+<sql:query dataSource = "${db}" var = "canvas3">select month.Value, IFNULL(SUM(TotalMoney), 0) as money from month left join orders on month.Value = MONTH(orders.CreatedAt) WHERE YEAR(NOW()) group by month.Value</sql:query>
 
     <script>
-        var a = JSON.parse(`${canvas1.getRows()}`)
-        console.log(a);
-//    var labels = [], datas = [];
-//    res.chart.forEach(e => {
-//        labels.push(e.department_name);
-//        datas.push(e.count);
-//    });
-//
-//    const config = {
-//        type: 'pie',
-//        data: {
-//            labels: labels,
-//            datasets: [{
-//                    data: datas,
-//                    backgroundColor: [
-//                        'rgba(255, 99, 132)',
-//                        'rgba(255, 159, 64)',
-//                        'rgba(255, 205, 86)',
-//                        'rgba(75, 192, 192)',
-//                        'rgba(54, 162, 235)',
-//                        'rgba(153, 102, 255)',
-//                        'rgba(201, 203, 207)'
-//                    ],
-//                    borderWidth: 1
-//                }]
-//        }
-//    };
-//
-//    new Chart($('#canvas1'), config);
+        var labels = [], datas = [];
+    <c:forEach var = "row" items = "${canvas1.rows}">
+        labels.push(`${row.CategoryName}`);
+        datas.push(`${row.count}`);
+    </c:forEach>
+
+        const config = {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                        data: datas,
+                        backgroundColor: [
+                            'rgba(255, 99, 132)',
+                            'rgba(255, 159, 64)',
+                            'rgba(255, 205, 86)',
+                            'rgba(75, 192, 192)',
+                            'rgba(54, 162, 235)',
+                            'rgba(153, 102, 255)',
+                            'rgba(201, 203, 207)'
+                        ],
+                        borderWidth: 1
+                    }]
+            }
+        };
+
+        new Chart($('#canvas1'), config);
+
+        labels = [], datas = [];
+    <c:forEach var = "row" items = "${canvas2.rows}">
+        labels.push(`Tháng ${row.Value}`);
+        datas.push(`${row.count}`);
+    </c:forEach>
+
+        const config1 = {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                        data: datas,
+                        backgroundColor: [
+                            'rgba(255, 99, 132)',
+                            'rgba(255, 159, 64)',
+                            'rgba(255, 205, 86)',
+                            'rgba(75, 192, 192)',
+                            'rgba(54, 162, 235)',
+                            'rgba(153, 102, 255)',
+                            'rgba(201, 203, 207)',
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(255, 159, 64, 0.6)',
+                            'rgba(255, 205, 86, 0.6)',
+                            'rgba(75, 192, 192, 0.6)',
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(153, 102, 255, 0.6)',
+                            'rgba(201, 203, 207, 0.6)'
+                        ],
+                        borderWidth: 1
+                    }]
+            }
+        };
+
+        new Chart($('#canvas2'), config1);
+        
+        labels = [], datas = [];
+    <c:forEach var = "row" items = "${canvas3.rows}">
+        labels.push(`Tháng ${row.Value}`);
+        datas.push(`${row.money}`);
+    </c:forEach>
+
+        const config2 = {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                        data: datas,
+                        backgroundColor: [
+                            'rgba(255, 99, 132)',
+                            'rgba(255, 159, 64)',
+                            'rgba(255, 205, 86)',
+                            'rgba(75, 192, 192)',
+                            'rgba(54, 162, 235)',
+                            'rgba(153, 102, 255)',
+                            'rgba(201, 203, 207)',
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(255, 159, 64, 0.6)',
+                            'rgba(255, 205, 86, 0.6)',
+                            'rgba(75, 192, 192, 0.6)',
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(153, 102, 255, 0.6)',
+                            'rgba(201, 203, 207, 0.6)'
+                        ],
+                        borderWidth: 1
+                    }]
+            }
+        };
+
+        new Chart($('#canvas3'), config2);
 </script>

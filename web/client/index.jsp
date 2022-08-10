@@ -7,7 +7,7 @@
                    url = "jdbc:mysql://${DB.HOST}:${DB.PORT}/${DB.DBNAME}"
                    user = "${DB.USERNAME}"  password = "${DB.PASSWORD}"/>
 
-<sql:query dataSource = "${db}" var = "sliderList">select * from sliders;</sql:query>
+<sql:query dataSource = "${db}" var = "sliderList">select * from sliders where Status = 1;</sql:query>
 
 <jsp:include page="/client/header.jsp"></jsp:include>
     <!-- slider section -->

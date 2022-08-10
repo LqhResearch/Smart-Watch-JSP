@@ -15,6 +15,11 @@
             String watchID = request.getParameter("id");
             sql = "insert into carts values (null, '" + username + "', " + watchID + ", 1)";
         }
+        if (request.getParameter("action").equals("update")) {
+            String cartID = request.getParameter("id");
+            String quantity = request.getParameter("quantity");
+            sql = "update carts set Quantity = " + quantity + " where CartID = " + cartID;
+        }
         if (request.getParameter("action").equals("delete")) {
             String cartID = request.getParameter("id");
             sql = "delete from carts where CartID = " + cartID;
@@ -32,7 +37,11 @@
 
 <jsp:include page="/client/header.jsp"></jsp:include>
     <section class="container layout_padding">
-        <table class="table">
+        <div class="heading_container heading_center">
+            <h2>Giỏ hàng của tôi</h2>
+        </div>
+
+        <table class="table mt-5">
             <thead>
                 <tr>
                     <th>Mã đồng hồ</th>
@@ -51,7 +60,18 @@
                     <td>${row.WatchName}</td>
                     <td><img height="50" src="${row.Thumbnail}" alt="" /></td>
                     <td>${row.Price}</td>
-                    <td>${row.Quantity}</td>
+                    <td>
+                        <form action="?action=update" method="GET">
+                            <div class="input-group input-group-sm">
+                                <input name="action" type="hidden" value="update" />
+                                <input name="id" type="hidden" value="${row.CartID}" />
+                                <input min="1" style="width: 20px;" type="number" class="form-control" value="${row.Quantity}" name="quantity">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary"><i class="fas fa-save"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </td>
                     <td>${row.Price * row.Quantity}</td>
                     <td><a href="?action=delete&id=${row.CartID}">Xoá</a></td>
                 </tr>

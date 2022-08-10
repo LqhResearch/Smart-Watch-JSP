@@ -68,7 +68,7 @@
                                 <th>Tổng đơn hàng</th>
                                 <th>Ngày mua</th>
                                 <th>Trạng thái</th>
-                                <th width="116">Công cụ</th>
+                                <th width="161">Công cụ</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -84,6 +84,7 @@
                                         <a href="?action=payment&id=${row.OrderID}" class="btn btn-primary"><i class="fas fa-money-check-alt"></i></a>
                                         </c:if>
                                     <a onclick="removeRow(`${row.OrderID}`)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                                    <a href="/admin/order/details.jsp?id=${row.OrderID}" class="btn btn-warning"><i class="fas fa-info-circle"></i></a>
                                 </td>
                             </tr>
                         </c:forEach>

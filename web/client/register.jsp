@@ -10,18 +10,23 @@
 
 <%
     String sql = "";
+    request.setCharacterEncoding("UTF-8");
     if (request.getParameter("submit") != null) {
         String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        sql = "select * from users where Username = '" + username + "' and Password = md5('" + password + "') and Status = 1";
+        String password1 = request.getParameter("password1");
+        String password2 = request.getParameter("password2");
+        String fullname = request.getParameter("fullname");
+        String phone = request.getParameter("phone");
+        String email = request.getParameter("email");
+        
+        if (password1.equals(password2)) {
+            sql = "insert into users values ('" + username + "', md5('" + password1 + "'), '" + fullname + "', '" + phone + "', '" + email + "', 1, 2)";
+        }
     }
 %>
-
-<% if (sql != "") {%>
-<sql:query dataSource = "${db}" var = "user"><%=sql%></sql:query>
-<c:set var = "username" scope = "session" value = "${user.getRows()[0].Username}"/>
-<c:set var = "fullname" scope = "session" value = "${user.getRows()[0].Fullname}"/>
-<c:set var = "role" scope = "session" value = "${user.getRows()[0].Role}"/>
+<%=sql%>
+<%    if (!sql.isEmpty()) {%>
+<sql:update dataSource = "${db}" var = "nonQuery"><%=sql%></sql:update>
 <%
         response.sendRedirect("/client/index.jsp");
     }
@@ -30,7 +35,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Đăng nhập</title>
+        <title>Đăng ký</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!--===============================================================================================-->	
@@ -62,7 +67,7 @@
             <div class="container-login100" style="background-image: url('/template/login/images/bg-01.jpg');">
                 <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
                     <form class="login100-form validate-form" method="POST">
-                        <span class="login100-form-title p-b-49">Đăng nhập</span>
+                        <span class="login100-form-title p-b-49">Đăng ký</span>
 
                         <div class="wrap-input100 validate-input m-b-23" data-validate = "Tên đăng nhập không được trống">
                             <span class="label-input100">Tên đăng nhập</span>
@@ -70,24 +75,48 @@
                             <span class="focus-input100" data-symbol="&#xf206;"></span>
                         </div>
 
-                        <div class="wrap-input100 validate-input" data-validate="Mật khẩu không được trống">
+                        <div class="wrap-input100 validate-input m-b-23" data-validate="Mật khẩu không được trống">
                             <span class="label-input100">Mật khẩu</span>
-                            <input class="input100" type="password" name="password">
+                            <input class="input100" type="password" name="password1">
                             <span class="focus-input100" data-symbol="&#xf190;"></span>
+                        </div>
+
+                        <div class="wrap-input100 validate-input m-b-23" data-validate="Mật khẩu không được trống">
+                            <span class="label-input100">Nhập lại mật khẩu</span>
+                            <input class="input100" type="password" name="password2">
+                            <span class="focus-input100" data-symbol="&#xf190;"></span>
+                        </div>
+
+                        <div class="wrap-input100 validate-input m-b-23">
+                            <span class="label-input100">Họ tên</span>
+                            <input class="input100" type="text" name="fullname">
+                            <span class="focus-input100" data-symbol="&#xf206;"></span>
+                        </div>
+
+                        <div class="wrap-input100 validate-input m-b-23">
+                            <span class="label-input100">Số điện thoại</span>
+                            <input class="input100" type="text" name="phone">
+                            <span class="focus-input100" data-symbol="&#xf206;"></span>
+                        </div>
+
+                        <div class="wrap-input100 validate-input m-b-23">
+                            <span class="label-input100">Email</span>
+                            <input class="input100" type="text" name="email">
+                            <span class="focus-input100" data-symbol="&#xf206;"></span>
                         </div>
 
                         <div class="container-login100-form-btn p-t-17">
                             <div class="wrap-login100-form-btn">
                                 <div class="login100-form-bgbtn"></div>
                                 <button class="login100-form-btn" name="submit">
-                                    Đăng nhập
+                                    Đăng ký
                                 </button>
                             </div>
                         </div>
 
                         <div class="flex-col-c p-t-17">
-                            <span class="txt1 p-b-17">Hoặc đăng ký để sử dụng</span>
-                            <a href="register.jsp" class="txt2">Đăng ký</a>
+                            <span class="txt1 p-b-17">Hoặc đăng nhập để sử dụng</span>
+                            <a href="login.jsp" class="txt2">Đăng nhập ngay</a>
                         </div>
                     </form>
                 </div>

@@ -52,21 +52,29 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="/client/watch/watch-list.jsp">Đồng hồ</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/client/category/list.jsp">Danh mục</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/client/order/list.jsp">Đơn hàng</a>
+                                </li>
                             </ul>
                             <div class="user_option-box">
-                                <% if (request.getSession().getAttribute("role").equals(1)) { %>
+                                <% if (request.getSession().getAttribute("role") != null && request.getSession().getAttribute("role").equals(1)) { %>
                                 <a href="/admin/index.jsp">
                                     <i class="fa fa-user" aria-hidden="true"></i>
-                                    <span>Trang quản trị</span>
+                                    <span>Quản trị</span>
                                 </a>
                                 <% }%>
                                 <a href="/client/login.jsp">
                                     <i class="fa fa-user" aria-hidden="true"></i>
-                                    <span><%=request.getSession().getAttribute("fullname")%></span>
+                                    <span><%=request.getSession().getAttribute("fullname") == null ? "Đăng nhập" : request.getSession().getAttribute("fullname")%></span>
                                 </a>
+                                <% if (request.getSession().getAttribute("username") != null) { %>
                                 <a href="/client/cart.jsp">
                                     <i class="fa fa-cart-plus" aria-hidden="true"></i>
                                 </a>
+                                <% }%>
                                 <a href="">
                                     <i class="fa fa-search" aria-hidden="true"></i>
                                 </a>

@@ -13,6 +13,8 @@
         <script src="/template/adminlte/plugins/select2/js/select2.full.min.js"></script>
         <!-- AdminLTE App -->
         <script src="/template/adminlte/dist/js/adminlte.min.js"></script>
+        <!-- ChartJS -->
+        <script src="/template/adminlte/plugins/chart.js/Chart.min.js"></script>
         <!-- My style -->
         <script src="/assets/js/main.js"></script>
         <script>

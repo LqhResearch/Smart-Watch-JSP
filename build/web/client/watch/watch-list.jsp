@@ -7,31 +7,40 @@
                    url = "jdbc:mysql://${DB.HOST}:${DB.PORT}/${DB.DBNAME}"
                    user = "${DB.USERNAME}"  password = "${DB.PASSWORD}"/>
 
-<sql:query dataSource = "${db}" var = "watchList">select * from watches;</sql:query>
+<% String search = request.getParameter("search");%>
+
+<sql:query dataSource = "${db}" var = "watchList">select * from watches <%=search == null ? "" : "where WatchName like '%" + search + "%'"%>;</sql:query>
 
 <jsp:include page="/client/header.jsp"></jsp:include>
     <section class="shop_section layout_padding">
         <div class="container">
-            <div class="heading_container heading_center">
-                <h2>Đồng hồ mới nhất</h2>
+            <form class="input-group">
+                <div class="input-group-prepend">
+                    <lable class="input-group-text">Tìm kiếm</lable>
+                </div>
+                <input class="form-control" type="text" name="search" value="<%=search == null ? "" : search%>">
+            <div class="input-group-append">
+                <button class="btn btn-primary">
+                    <i class="fa fa-search fa-fw"></i>
+                </button>
             </div>
-            <div class="row">
-                <div class="row">
-                <c:forEach var = "row" items = "${watchList.rows}">
-                    <div class="col-md-3">
-                        <div class="box">
-                            <a href="#">
-                                <div class="img-box">
-                                    <img src="${row.Thumbnail}" alt="">
-                                </div>
-                                <h6>${row.WatchName}</h6>
-                                <h6>Giá: <span>${row.Price}</span></h6>
-                                <div class="new"><span>Mới</span></div>
-                            </a>
-                        </div>
+        </form>
+
+        <div class="row">
+            <c:forEach var = "row" items = "${watchList.rows}">
+                <div class="col-md-3">
+                    <div class="box">
+                        <a href="#">
+                            <div class="img-box">
+                                <img src="${row.Thumbnail}" alt="">
+                            </div>
+                            <h6>${row.WatchName}</h6>
+                            <h6>Giá: <span>${row.Price}</span></h6>
+                            <div class="new"><span>Mới</span></div>
+                        </a>
                     </div>
-                </c:forEach>
-            </div>
+                </div>
+            </c:forEach>
         </div>
     </div>
 </section>

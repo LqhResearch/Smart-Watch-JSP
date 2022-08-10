@@ -87,7 +87,7 @@
 
                         <div class="flex-col-c p-t-17">
                             <span class="txt1 p-b-17">Hoặc đăng ký để sử dụng</span>
-                            <a href="#" class="txt2">Đăng ký</a>
+                            <a href="register.jsp" class="txt2">Đăng ký</a>
                         </div>
                     </form>
                 </div>
