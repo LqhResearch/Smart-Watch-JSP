@@ -1,11 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
-<%@ page import="config.DB" %>
-
-<sql:setDataSource var = "db" driver = "com.mysql.jdbc.Driver"
-                   url = "jdbc:mysql://${DB.HOST}:${DB.PORT}/${DB.DBNAME}"
-                   user = "${DB.USERNAME}"  password = "${DB.PASSWORD}"/>
+<jsp:directive.include file="/config.jsp"></jsp:directive.include>
 
 <% String categoryID = request.getParameter("id");%>
 
@@ -20,11 +14,10 @@
                     <div class="box">
                         <a href="#">
                             <div class="img-box">
-                                <img src="${row.Thumbnail}" alt="">
+                                <img src="${row.Thumbnail}" alt="${row.WatchName}">
                             </div>
                             <h6>${row.WatchName}</h6>
-                            <h6>Giá: <span>${row.Price}</span></h6>
-                            <div class="new"><span>Mới</span></div>
+                            <h6>Giá: <span>${Helper.Currency(row.Price)}</span></h6>
                         </a>
                     </div>
                 </div>

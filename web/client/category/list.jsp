@@ -1,18 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
-<%@ page import="config.DB" %>
-
-<style>
-    .bg-yellow {
-        background-color: #f0d43a !important;
-        color: #fff;
-    }
-</style>
-
-<sql:setDataSource var = "db" driver = "com.mysql.jdbc.Driver"
-                   url = "jdbc:mysql://${DB.HOST}:${DB.PORT}/${DB.DBNAME}"
-                   user = "${DB.USERNAME}"  password = "${DB.PASSWORD}"/>
+<jsp:directive.include file="/config.jsp"></jsp:directive.include>
 
 <sql:query dataSource = "${db}" var = "watchList">select * from categories;</sql:query>
 

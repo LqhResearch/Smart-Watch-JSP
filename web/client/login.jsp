@@ -1,12 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
-<%@ page import="config.DB" %>
-
-<sql:setDataSource var = "db" driver = "com.mysql.jdbc.Driver"
-                   url = "jdbc:mysql://${DB.HOST}:${DB.PORT}/${DB.DBNAME}"
-                   user = "${DB.USERNAME}"  password = "${DB.PASSWORD}"/>
+<jsp:directive.include file="/config.jsp"></jsp:directive.include>
 
 <%
     String sql = "";
@@ -34,7 +27,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!--===============================================================================================-->	
-        <link rel="icon" type="image/png" href="/template/login/images/icons/favicon.ico"/>
+        <link rel="icon" href="/assets/img/favicon.png">
         <!--===============================================================================================-->
         <link rel="stylesheet" href="/template/login/vendor/bootstrap/css/bootstrap.min.css">
         <!--===============================================================================================-->

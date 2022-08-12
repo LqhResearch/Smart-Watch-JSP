@@ -1,11 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
-<%@ page import="config.DB" %>
-
-<sql:setDataSource var = "db" driver = "com.mysql.jdbc.Driver"
-                   url = "jdbc:mysql://${DB.HOST}:${DB.PORT}/${DB.DBNAME}"
-                   user = "${DB.USERNAME}"  password = "${DB.PASSWORD}"/>
+<jsp:directive.include file="/config.jsp"></jsp:directive.include>
 
 <% String search = request.getParameter("search");%>
 
@@ -14,9 +8,9 @@
 <jsp:include page="/client/header.jsp"></jsp:include>
     <section class="shop_section layout_padding">
         <div class="container">
-            <form class="input-group">
+            <form class="input-group mb-5">
                 <div class="input-group-prepend">
-                    <lable class="input-group-text">Tìm kiếm</lable>
+                    <lable class="input-group-text bg-primary text-white">Tìm kiếm</lable>
                 </div>
                 <input class="form-control" type="text" name="search" value="<%=search == null ? "" : search%>">
             <div class="input-group-append">
@@ -32,12 +26,14 @@
                     <div class="box">
                         <a href="#">
                             <div class="img-box">
-                                <img src="${row.Thumbnail}" alt="">
+                                <img src="${row.Thumbnail}" alt="${row.WatchName}">
                             </div>
                             <h6>${row.WatchName}</h6>
-                            <h6>Giá: <span>${row.Price}</span></h6>
-                            <div class="new"><span>Mới</span></div>
+                            <h6>Giá: <span>${Helper.Currency(row.Price)}</span></h6>
                         </a>
+                        <div class="btn-box">
+                            <a href="/client/cart.jsp?action=add&id=${row.WatchID}" class="btn1">Thêm vào giỏ</a>
+                        </div>
                     </div>
                 </div>
             </c:forEach>

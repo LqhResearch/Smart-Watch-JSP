@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="/template/home/css/font-awesome.min.css" />
         <link rel="stylesheet" href="/template/home/css/style.css" />
         <link rel="stylesheet" href="/template/home/css/responsive.css" />
+        <link rel="stylesheet" href="/assets/css/style.css" />
     </head>
     <body>
         <div class="hero_area">
@@ -41,7 +42,7 @@
                         </a>
 
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class=""> </span>
+                            <span class=""></span>
                         </button>
 
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">

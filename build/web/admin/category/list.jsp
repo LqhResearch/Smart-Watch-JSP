@@ -1,15 +1,8 @@
 <%@ page contentType = "text/html" pageEncoding = "UTF-8"%>
-<%@ page import = "config.DB" %>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
-
-<sql:setDataSource var = "db" driver = "com.mysql.jdbc.Driver"
-                   url = "jdbc:mysql://${DB.HOST}:${DB.PORT}/${DB.DBNAME}"
-                   user = "${DB.USERNAME}"  password = "${DB.PASSWORD}"/>
+<jsp:directive.include file="/config.jsp"></jsp:directive.include>
 
 <%
     String sql = "";
-    request.setCharacterEncoding("UTF-8");
     if (request.getParameter("action") != null) {
         if (request.getParameter("action").equals("add")) {
             String name = request.getParameter("name");
@@ -127,8 +120,8 @@
                         <tbody>
                         <c:forEach var = "row" items = "${list.rows}">
                             <tr>
-                                <td><c:out value = "${row.CategoryID}"/></td>                                
-                                <td><c:out value = "${row.CategoryName}"/></td>
+                                <td>${row.CategoryID}</td>                                
+                                <td>${row.CategoryName}</td>
                                 <td>
                                     <a href="?edit-id=${row.CategoryID}" class="btn btn-warning"><i class="fas fa-marker"></i></a>
                                     <a onclick="removeRow(${row.CategoryID})" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>

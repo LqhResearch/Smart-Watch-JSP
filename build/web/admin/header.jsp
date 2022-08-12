@@ -1,6 +1,4 @@
 <%@ page contentType = "text/html" pageEncoding = "UTF-8"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -76,7 +74,7 @@
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                             <li class="nav-item">
                                 <a href="/admin/" class="nav-link">
-                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <i class="nav-icon fas fa-chart-bar"></i>
                                     <p>Bảng điều khiển</p>
                                 </a>
                             </li>

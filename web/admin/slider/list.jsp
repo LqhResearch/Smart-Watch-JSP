@@ -1,23 +1,10 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import = "java.io.*,java.util.*, javax.servlet.*" %>
-<%@ page import = "org.apache.commons.fileupload.*" %>
-<%@ page import = "org.apache.commons.fileupload.disk.*" %>
-<%@ page import = "org.apache.commons.fileupload.servlet.*" %>
-<%@ page import = "org.apache.commons.io.output.*" %>
-<%@ page import = "config.DB" %>
-<%@ page import = "config.Utility" %>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
-
-<sql:setDataSource var = "db" driver = "com.mysql.jdbc.Driver"
-                   url = "jdbc:mysql://${DB.HOST}:${DB.PORT}/${DB.DBNAME}"
-                   user = "${DB.USERNAME}"  password = "${DB.PASSWORD}"/>
+<jsp:directive.include file="/config.jsp"></jsp:directive.include>
 
 <%
     HashMap<String, String> formData = new HashMap<String, String>();
 
-    ServletContext context = pageContext.getServletContext();
-    String localPath = context.getInitParameter("slider-upload");
+    String localPath = Helper.SLIDER_UPLOAD;
 
     if (request.getContentType() != null && request.getContentType().indexOf("multipart/form-data") >= 0) {
         ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory(5120000, new File("c:\\temp")));
@@ -53,12 +40,14 @@
         if (formData.get("action").equals("edit")) {
             sql = "update Sliders set SliderName = '" + formData.get("name") + "', Description = '" + formData.get("description") + "', Thumbnail = '" + formData.get("fileName") + "', Status = '" + formData.get("active") + "' where SliderID = " + formData.get("id");
         }
+
         response.sendRedirect("/admin/slider/list.jsp");
     }
 
     if (request.getParameter("action") != null && request.getParameter("action").equals("delete")) {
         String id = request.getParameter("id");
         sql = "delete from sliders where SliderID = " + id;
+
         response.sendRedirect("/admin/slider/list.jsp");
     }
 %>
@@ -192,11 +181,11 @@
                         <tbody>
                         <c:forEach var = "row" items = "${list.rows}">
                             <tr>
-                                <td><c:out value = "${row.SliderID}"/></td>                                
-                                <td><c:out value = "${row.SliderName}"/></td>
-                                <td><c:out value = "${row.Description}"/></td>
-                                <td><a href="${row.Thumbnail}" target="_blank"><img height="50" src='<c:out value = "${row.Thumbnail}"/>' alt="" /></a></td>
-                                <td>${Utility.Active(row.Status)}</td>
+                                <td>${row.SliderID}</td>                                
+                                <td>${row.SliderName}</td>
+                                <td>${row.Description}</td>
+                                <td><a href="${row.Thumbnail}" target="_blank"><img height="50" src="${row.Thumbnail}" alt="" /></a></td>
+                                <td>${Helper.Status(row.Status == "1", "Hoạt động", "Ẩn")}</td>
                                 <td>
                                     <a href="?edit-id=${row.SliderID}" class="btn btn-warning"><i class="fas fa-marker"></i></a>
                                     <a onclick="removeRow(${row.SliderID})" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>

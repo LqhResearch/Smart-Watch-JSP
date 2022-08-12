@@ -1,23 +1,10 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import = "java.io.*,java.util.*, javax.servlet.*" %>
-<%@ page import = "org.apache.commons.fileupload.*" %>
-<%@ page import = "org.apache.commons.fileupload.disk.*" %>
-<%@ page import = "org.apache.commons.fileupload.servlet.*" %>
-<%@ page import = "org.apache.commons.io.output.*" %>
-<%@ page import = "config.DB" %>
-<%@ page import = "config.Utility" %>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
-
-<sql:setDataSource var = "db" driver = "com.mysql.jdbc.Driver"
-                   url = "jdbc:mysql://${DB.HOST}:${DB.PORT}/${DB.DBNAME}"
-                   user = "${DB.USERNAME}"  password = "${DB.PASSWORD}"/>
+<jsp:directive.include file="/config.jsp"></jsp:directive.include>
 
 <%
     HashMap<String, String> formData = new HashMap<String, String>();
 
-    ServletContext context = pageContext.getServletContext();
-    String localPath = context.getInitParameter("product-upload");
+    String localPath = Helper.PRODUCT_UPLOAD;
 
     if (request.getContentType() != null && request.getContentType().indexOf("multipart/form-data") >= 0) {
         ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory(5120000, new File("c:\\temp")));
@@ -138,7 +125,7 @@
     <form class="modal-dialog" method="POST" enctype="multipart/form-data">
         <div class="modal-content">
             <div class="modal-header bg-warning">
-                <h5 class="modal-title">Cập nhật slider</h5>
+                <h5 class="modal-title">Cập nhật đồng hồ</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -177,13 +164,13 @@
                         </c:forEach>
                     </select>
                 </div>
-                    <input type="hidden" name="action" value="edit">
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-ban"></i> Huỷ</button>
-                    <button class="btn btn-primary"><i class="fas fa-save"></i> Lưu</button>
-                </div>
+                <input type="hidden" name="action" value="edit">
             </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-ban"></i> Huỷ</button>
+                <button class="btn btn-primary"><i class="fas fa-save"></i> Lưu</button>
+            </div>
+        </div>
     </form>
 </div>
 
@@ -196,7 +183,7 @@
             </div>
         </div>
 
-        <sql:query dataSource = "${db}" var = "list">select * from watches, categories where watches.CategoryID = categories.CategoryID</sql:query>
+        <sql:query dataSource = "${db}" var = "list">select * from watches, categories where watches.CategoryID = categories.CategoryID order by WatchID desc</sql:query>
 
             <div class="card">
                 <div class="card-body">
@@ -216,13 +203,13 @@
                         <tbody>
                         <c:forEach var = "row" items = "${list.rows}">
                             <tr>
-                                <td><c:out value = "${row.WatchID}"/></td>
-                                <td><c:out value = "${row.WatchName}"/></td>
-                                <td><c:out value = "${row.Description}"/></td>
-                                <td><a href="${row.Thumbnail}" target="_blank"><img height="50" src='<c:out value = "${row.Thumbnail}"/>' alt="" /></a></td>
-                                <td><c:out value = "${row.Price}"/></td>
-                                <td><c:out value = "${row.Trademark}"/></td>
-                                <td><c:out value = "${row.CategoryName}"/></td>
+                                <td>${row.WatchID}</td>
+                                <td>${row.WatchName}</td>
+                                <td>${row.Description}</td>
+                                <td><a href="${row.Thumbnail}" target="_blank"><img height="50" src='${row.Thumbnail}' alt="" /></a></td>
+                                <td>${Helper.Currency(row.Price)}</td>
+                                <td>${row.Trademark}</td>
+                                <td>${row.CategoryName}</td>
                                 <td>
                                     <a href="?edit-id=${row.WatchID}" class="btn btn-warning"><i class="fas fa-marker"></i></a>
                                     <a onclick="removeRow(${row.WatchID})" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>

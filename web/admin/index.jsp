@@ -1,12 +1,5 @@
-<%@page contentType = "text/html" pageEncoding = "UTF-8"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
-<%@ page import="config.DB" %>
-<%@ page import="com.google.gson.Gson" %>
-
-<sql:setDataSource var = "db" driver = "com.mysql.jdbc.Driver"
-                   url = "jdbc:mysql://${DB.HOST}:${DB.PORT}/${DB.DBNAME}"
-                   user = "${DB.USERNAME}"  password = "${DB.PASSWORD}"/>
+<%@ page contentType = "text/html" pageEncoding = "UTF-8"%>
+<jsp:directive.include file="/config.jsp"></jsp:directive.include>
 
 <jsp:include page="header.jsp"></jsp:include>
     <section class="content-header">
@@ -31,7 +24,7 @@
                     <div class="icon">
                         <i class="fas fa-th"></i>
                     </div>
-                    <a href="#" class="small-box-footer">Xem chi tiết <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="/admin/category/list.jsp" class="small-box-footer">Xem chi tiết <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
 
@@ -45,7 +38,7 @@
                     <div class="icon">
                         <i class="fas fa-clock"></i>
                     </div>
-                    <a href="#" class="small-box-footer">Xem chi tiết <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="/admin/watch/list.jsp" class="small-box-footer">Xem chi tiết <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
 
@@ -59,7 +52,7 @@
                     <div class="icon">
                         <i class="fas fa-boxes"></i>
                     </div>
-                    <a href="#" class="small-box-footer">Xem chi tiết <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="/admin/order/list.jsp" class="small-box-footer">Xem chi tiết <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
 
@@ -73,7 +66,7 @@
                     <div class="icon">
                         <i class="fas fa-images"></i>
                     </div>
-                    <a href="#" class="small-box-footer">Xem chi tiết <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="/admin/slider/list.jsp" class="small-box-footer">Xem chi tiết <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>
@@ -116,9 +109,9 @@
 </section>
 <jsp:include page="footer.jsp"></jsp:include>
 
-<sql:query dataSource = "${db}" var = "canvas1">select CategoryName, COUNT(watches.WatchID) as count from categories left join watches on categories.CategoryID = watches.WatchID GROUP BY CategoryName;</sql:query>
-<sql:query dataSource = "${db}" var = "canvas2">select month.Value, COUNT(OrderID) as count from month left join orders on month.Value = MONTH(orders.CreatedAt) WHERE YEAR(NOW()) group by month.Value</sql:query>
-<sql:query dataSource = "${db}" var = "canvas3">select month.Value, IFNULL(SUM(TotalMoney), 0) as money from month left join orders on month.Value = MONTH(orders.CreatedAt) WHERE YEAR(NOW()) group by month.Value</sql:query>
+<sql:query dataSource = "${db}" var = "canvas1">select CategoryName, COUNT(WatchID) as count from categories left join watches on categories.CategoryID = watches.CategoryID GROUP BY CategoryName;</sql:query>
+<sql:query dataSource = "${db}" var = "canvas2">select months.MonthName, COUNT(OrderID) as count from months left join orders on months.MonthName = MONTH(orders.CreatedAt) WHERE YEAR(NOW()) group by months.MonthName</sql:query>
+<sql:query dataSource = "${db}" var = "canvas3">select months.MonthName, IFNULL(SUM(TotalMoney), 0) as money from months left join orders on months.MonthName = MONTH(orders.CreatedAt) WHERE YEAR(NOW()) group by months.MonthName</sql:query>
 
     <script>
         var labels = [], datas = [];
@@ -127,95 +120,21 @@
         datas.push(`${row.count}`);
     </c:forEach>
 
-        const config = {
-            type: 'pie',
-            data: {
-                labels: labels,
-                datasets: [{
-                        data: datas,
-                        backgroundColor: [
-                            'rgba(255, 99, 132)',
-                            'rgba(255, 159, 64)',
-                            'rgba(255, 205, 86)',
-                            'rgba(75, 192, 192)',
-                            'rgba(54, 162, 235)',
-                            'rgba(153, 102, 255)',
-                            'rgba(201, 203, 207)'
-                        ],
-                        borderWidth: 1
-                    }]
-            }
-        };
-
-        new Chart($('#canvas1'), config);
+        stat($("#canvas1"), labels, datas);
 
         labels = [], datas = [];
     <c:forEach var = "row" items = "${canvas2.rows}">
-        labels.push(`Tháng ${row.Value}`);
+        labels.push(`Tháng ${row.MonthName}`);
         datas.push(`${row.count}`);
     </c:forEach>
 
-        const config1 = {
-            type: 'pie',
-            data: {
-                labels: labels,
-                datasets: [{
-                        data: datas,
-                        backgroundColor: [
-                            'rgba(255, 99, 132)',
-                            'rgba(255, 159, 64)',
-                            'rgba(255, 205, 86)',
-                            'rgba(75, 192, 192)',
-                            'rgba(54, 162, 235)',
-                            'rgba(153, 102, 255)',
-                            'rgba(201, 203, 207)',
-                            'rgba(255, 99, 132, 0.6)',
-                            'rgba(255, 159, 64, 0.6)',
-                            'rgba(255, 205, 86, 0.6)',
-                            'rgba(75, 192, 192, 0.6)',
-                            'rgba(54, 162, 235, 0.6)',
-                            'rgba(153, 102, 255, 0.6)',
-                            'rgba(201, 203, 207, 0.6)'
-                        ],
-                        borderWidth: 1
-                    }]
-            }
-        };
+        stat($("#canvas2"), labels, datas);
 
-        new Chart($('#canvas2'), config1);
-        
         labels = [], datas = [];
     <c:forEach var = "row" items = "${canvas3.rows}">
-        labels.push(`Tháng ${row.Value}`);
+        labels.push(`Tháng ${row.MonthName}`);
         datas.push(`${row.money}`);
     </c:forEach>
 
-        const config2 = {
-            type: 'pie',
-            data: {
-                labels: labels,
-                datasets: [{
-                        data: datas,
-                        backgroundColor: [
-                            'rgba(255, 99, 132)',
-                            'rgba(255, 159, 64)',
-                            'rgba(255, 205, 86)',
-                            'rgba(75, 192, 192)',
-                            'rgba(54, 162, 235)',
-                            'rgba(153, 102, 255)',
-                            'rgba(201, 203, 207)',
-                            'rgba(255, 99, 132, 0.6)',
-                            'rgba(255, 159, 64, 0.6)',
-                            'rgba(255, 205, 86, 0.6)',
-                            'rgba(75, 192, 192, 0.6)',
-                            'rgba(54, 162, 235, 0.6)',
-                            'rgba(153, 102, 255, 0.6)',
-                            'rgba(201, 203, 207, 0.6)'
-                        ],
-                        borderWidth: 1
-                    }]
-            }
-        };
-
-        new Chart($('#canvas3'), config2);
+        stat($("#canvas3"), labels, datas);
 </script>

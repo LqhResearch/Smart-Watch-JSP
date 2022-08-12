@@ -1,15 +1,8 @@
 <%@ page contentType = "text/html" pageEncoding = "UTF-8"%>
-<%@ page import = "config.DB" %>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
-
-<sql:setDataSource var = "db" driver = "com.mysql.jdbc.Driver"
-                   url = "jdbc:mysql://${DB.HOST}:${DB.PORT}/${DB.DBNAME}"
-                   user = "${DB.USERNAME}"  password = "${DB.PASSWORD}"/>
+<jsp:directive.include file="/config.jsp"></jsp:directive.include>
 
 <%
     String sql = "", sql1 = "";
-    request.setCharacterEncoding("UTF-8");
     if (request.getParameter("action") != null) {
         if (request.getParameter("action").equals("payment")) {
             String orderID = request.getParameter("id");
@@ -49,15 +42,9 @@
 
     <section class="content">
         <div class="container-fluid">
-            <div class="card">
-                <div class="card-body">
-                    <div class="btn btn-primary" data-toggle="modal" data-target="#modal-add"><i class="fas fa-plus"></i> Thêm</div>
-                    <div class="btn btn-warning" hidden data-toggle="modal" data-target="#modal-edit"><i class="fas fa-marker"></i> Cập nhật</div>
-                </div>
-            </div>
+            <div class="btn btn-warning" hidden data-toggle="modal" data-target="#modal-edit"><i class="fas fa-marker"></i> Cập nhật</div>
 
         <sql:query dataSource = "${db}" var = "list">select * from orders order by CreatedAt desc;</sql:query>
-
             <div class="card">
                 <div class="card-body">
                     <table class="table table-bordered">
@@ -68,23 +55,23 @@
                                 <th>Tổng đơn hàng</th>
                                 <th>Ngày mua</th>
                                 <th>Trạng thái</th>
-                                <th width="161">Công cụ</th>
+                                <th width="163">Công cụ</th>
                             </tr>
                         </thead>
                         <tbody>
                         <c:forEach var = "row" items = "${list.rows}">
                             <tr>
-                                <td><c:out value = "${row.OrderID}"/></td>                                
-                                <td><c:out value = "${row.Username}"/></td>
-                                <td><c:out value = "${row.TotalMoney}"/></td>
-                                <td><c:out value = "${row.CreatedAt}"/></td>
-                                <td>${row.Payment == "0" ? "<span class='badge badge-danger'>Chưa thanh toán</span>" : "<span class='badge badge-success'>Đã thanh toán</span>"}</td>
+                                <td>${row.OrderID}</td>
+                                <td>${row.Username}</td>
+                                <td>${Helper.Currency(row.TotalMoney)}</td>
+                                <td>${Helper.Date(row.CreatedAt)}</td>
+                                <td>${Helper.Span(row.Payment == 1, "Đã thanh toán", "Chưa thanh toán")}</td>
                                 <td>
                                     <c:if test="${row.Payment == 0}">
                                         <a href="?action=payment&id=${row.OrderID}" class="btn btn-primary"><i class="fas fa-money-check-alt"></i></a>
                                         </c:if>
                                     <a onclick="removeRow(`${row.OrderID}`)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
-                                    <a href="/admin/order/details.jsp?id=${row.OrderID}" class="btn btn-warning"><i class="fas fa-info-circle"></i></a>
+                                    <a target="_blank" href="/client/order/order-details.jsp?id=${row.OrderID}" class="btn btn-warning"><i class="fas fa-info-circle"></i></a>
                                 </td>
                             </tr>
                         </c:forEach>

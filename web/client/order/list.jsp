@@ -1,13 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
-<%@ page import="config.DB" %>
+<jsp:directive.include file="/config.jsp"></jsp:directive.include>
 
-<sql:setDataSource var = "db" driver = "com.mysql.jdbc.Driver"
-                   url = "jdbc:mysql://${DB.HOST}:${DB.PORT}/${DB.DBNAME}"
-                   user = "${DB.USERNAME}"  password = "${DB.PASSWORD}"/>
-
-<% String username = request.getSession().getAttribute("username").toString();%>
+<% Object username = request.getSession().getAttribute("username");%>
 
 <sql:query dataSource = "${db}" var = "list">select * from orders where Username = '<%=username%>';</sql:query>
 
@@ -31,9 +25,9 @@
             <c:forEach var = "row" items = "${list.rows}">
                 <tr>
                     <td>${row.OrderID}</td>
-                    <td>${row.TotalMoney}</td>
-                    <td>${row.Payment}</td>
-                    <td>${row.CreatedAt}</td>
+                    <td>${Helper.Currency(row.TotalMoney)}</td>
+                    <td>${Helper.Span(row.Payment == 1, "Đã thanh toán", "Chưa thanh toán")}</td>
+                    <td>${Helper.Date(row.CreatedAt)}</td>
                     <td><a href="/client/order/order-details.jsp?id=${row.OrderID}" class="btn btn-primary btn-sm">Xem chi tiết</a></td>
                 </tr>
             </c:forEach>

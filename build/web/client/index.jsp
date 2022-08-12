@@ -1,16 +1,10 @@
 <%@ page contentType = "text/html" pageEncoding = "UTF-8"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
-<%@ page import="config.DB" %>
+<jsp:directive.include file="/config.jsp"></jsp:directive.include>
 
-<sql:setDataSource var = "db" driver = "com.mysql.jdbc.Driver"
-                   url = "jdbc:mysql://${DB.HOST}:${DB.PORT}/${DB.DBNAME}"
-                   user = "${DB.USERNAME}"  password = "${DB.PASSWORD}"/>
-
-<sql:query dataSource = "${db}" var = "sliderList">select * from sliders where Status = 1;</sql:query>
+<sql:query dataSource = "${db}" var = "sliderList" >select * from sliders where Status = 1;</sql:query>
 
 <jsp:include page="/client/header.jsp"></jsp:include>
-    <!-- slider section -->
+    <!-- Slider section -->
     <section class="slider_section">
         <div id="sliderCarousel" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
@@ -50,7 +44,7 @@
 <!-- end slider section -->
 </div>
 
-<sql:query dataSource = "${db}" var = "watchList">select * from watches;</sql:query>
+<sql:query dataSource = "${db}" var = "watchList">select * from watches order by WatchID desc limit 8;</sql:query>
 
     <section class="shop_section layout_padding">
         <div class="container">
@@ -63,10 +57,10 @@
                     <div class="box">
                         <a href="#">
                             <div class="img-box">
-                                <img src="${row.Thumbnail}" alt="">
+                                <img src="${row.Thumbnail}" alt="${row.WatchName}">
                             </div>
                             <h6>${row.WatchName}</h6>
-                            <h6>Giá: <span>${row.Price}</span></h6>
+                            <h6>Giá: <span>${Helper.Currency(row.Price)}</span></h6>
                             <div class="new"><span>Mới</span></div>
                         </a>
                         <div class="btn-box">

@@ -1,16 +1,8 @@
 <%@ page contentType = "text/html" pageEncoding = "UTF-8"%>
-<%@ page import = "config.DB" %>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
-
-
-<sql:setDataSource var = "db" driver = "com.mysql.jdbc.Driver"
-                   url = "jdbc:mysql://${DB.HOST}:${DB.PORT}/${DB.DBNAME}"
-                   user = "${DB.USERNAME}"  password = "${DB.PASSWORD}"/>
+<jsp:directive.include file="/config.jsp"></jsp:directive.include>
 
 <%
     String sql = "";
-    request.setCharacterEncoding("UTF-8");
     if (request.getParameter("action") != null) {
         if (request.getParameter("action").equals("edit")) {
             String id = request.getParameter("id");
@@ -81,12 +73,7 @@
 
 <section class="content">
     <div class="container-fluid">
-        <div class="card">
-            <div class="card-body">
-                <div class="btn btn-primary" data-toggle="modal" data-target="#modal-add"><i class="fas fa-plus"></i> Thêm</div>
-                <div class="btn btn-warning" hidden data-toggle="modal" data-target="#modal-edit"><i class="fas fa-marker"></i> Cập nhật</div>
-            </div>
-        </div>
+        <div class="btn btn-warning" hidden data-toggle="modal" data-target="#modal-edit"><i class="fas fa-marker"></i> Cập nhật</div>
 
         <sql:query dataSource = "${db}" var = "list">select * from users;</sql:query>
 
@@ -109,10 +96,10 @@
                             <tr>
                                 <td>${row.Username}</td>                                
                                 <td>${row.Fullname}</td>
-                                <td>${row.Phone}</td>
+                                <td>${ Helper.Phone(row.Phone) }</td>
                                 <td>${row.Email}</td>
-                                <td>${row.Status == 1 ? "<span class='badge badge-success'>Hoạt động</span>" : "<span class='badge badge-danger'>Khoá</span>"}</td>
-                                <td>${row.Role == 1 ? "<span class='badge badge-primary'>Quản trị viên</span>" : "<span class='badge badge-warning'>Thành viên</span>"}</td>
+                                <td>${Helper.Status(row.Status == 1, "Hoạt động", "Khoá")}</td>
+                                <td>${Helper.Span(row.Role == 1, "Quản trị viên", "Thành viên")}</td>
                                 <td>
                                     <a href="?edit-id=${row.Username}" class="btn btn-warning"><i class="fas fa-marker"></i></a>
                                 </td>

@@ -1,11 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
-<%@ page import="config.DB" %>
-
-<sql:setDataSource var = "db" driver = "com.mysql.jdbc.Driver"
-                   url = "jdbc:mysql://${DB.HOST}:${DB.PORT}/${DB.DBNAME}"
-                   user = "${DB.USERNAME}"  password = "${DB.PASSWORD}"/>
+<jsp:directive.include file="/config.jsp"></jsp:directive.include>
 
 <%
     String sql = "";
@@ -44,7 +38,7 @@
         <table class="table mt-5">
             <thead>
                 <tr>
-                    <th>Mã đồng hồ</th>
+                    <th>STT</th>
                     <th>Tên đồng hồ</th>
                     <th>Hình ảnh</th>
                     <th>Giá</th>
@@ -54,12 +48,13 @@
                 </tr>
             </thead>
             <tbody>
+            <% int i = 1;%>
             <c:forEach var = "row" items = "${list.rows}">
                 <tr>
-                    <td>${row.WatchID}</td>
+                    <td><%=i++%></td>
                     <td>${row.WatchName}</td>
-                    <td><img height="50" src="${row.Thumbnail}" alt="" /></td>
-                    <td>${row.Price}</td>
+                    <td><a href="${row.Thumbnail}" target="_blank"><img height="50" src="${row.Thumbnail}" alt="${row.WatchName}" /></a></td>
+                    <td>${Helper.Currency(row.Price)}</td>
                     <td>
                         <form action="?action=update" method="GET">
                             <div class="input-group input-group-sm">
@@ -67,12 +62,12 @@
                                 <input name="id" type="hidden" value="${row.CartID}" />
                                 <input min="1" style="width: 20px;" type="number" class="form-control" value="${row.Quantity}" name="quantity">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary"><i class="fas fa-save"></i></button>
+                                    <button class="btn btn-primary"><i class="fa fa-save"></i></button>
                                 </div>
                             </div>
                         </form>
                     </td>
-                    <td>${row.Price * row.Quantity}</td>
+                    <td>${Helper.Currency(row.Price * row.Quantity)}</td>
                     <td><a href="?action=delete&id=${row.CartID}">Xoá</a></td>
                 </tr>
             </c:forEach>
