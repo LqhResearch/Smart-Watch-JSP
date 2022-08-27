@@ -28,6 +28,9 @@
                     <li class="nav-item">
                         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                     </li>
+                    <li class="nav-item">
+                        <a href="/client/index.jsp" class="nav-link">Trang chủ</a>
+                    </li>
                 </ul>
 
                 <!-- Right navbar links -->
@@ -106,12 +109,6 @@
                                 <a href="/admin/account/list.jsp" class="nav-link">
                                     <i class="nav-icon fas fa-user-circle"></i>
                                     <p>Tài khoản</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/" class="nav-link">
-                                    <i class="nav-icon fas fa-home"></i>
-                                    <p>Trang mua hàng</p>
                                 </a>
                             </li>
                         </ul>

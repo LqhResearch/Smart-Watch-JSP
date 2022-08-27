@@ -34,7 +34,7 @@
         </div>
         <div class="footer-info">
             <p>
-                &copy; <span id="displayYear"></span> Bản quyền thuộc về LqhResearch</a>
+                &copy; <span id="displayYear"></span> Bản quyền thuộc về <a href="https://github.com/LqhResearch" target="_blank"a>LqhResearch</a>
             </p>
         </div>
     </div>

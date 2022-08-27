@@ -1,6 +1,5 @@
 <%@ page contentType = "text/html" pageEncoding = "UTF-8"%>
 <jsp:directive.include file="/config.jsp"></jsp:directive.include>
-
 <%
     String sql = "";
     if (request.getParameter("action") != null) {
@@ -96,7 +95,7 @@
                             <tr>
                                 <td>${row.Username}</td>                                
                                 <td>${row.Fullname}</td>
-                                <td>${ Helper.Phone(row.Phone) }</td>
+                                <td>${Helper.Phone(row.Phone)}</td>
                                 <td>${row.Email}</td>
                                 <td>${Helper.Status(row.Status == 1, "Hoạt động", "Khoá")}</td>
                                 <td>${Helper.Span(row.Role == 1, "Quản trị viên", "Thành viên")}</td>

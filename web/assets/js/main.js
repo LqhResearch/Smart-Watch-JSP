@@ -34,7 +34,8 @@ function stat(elem, labels, datas) {
         type: 'pie',
         data: {
             labels: labels,
-            datasets: [{
+            datasets: [
+                {
                     data: datas,
                     backgroundColor: [
                         'rgba(255, 99, 132)',
@@ -53,9 +54,9 @@ function stat(elem, labels, datas) {
                         'rgba(201, 203, 207, 0.6)'
                     ],
                     borderWidth: 1
-                }]
+                }
+            ]
         }
     };
-
     new Chart(elem, config);
 }

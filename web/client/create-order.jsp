@@ -4,7 +4,6 @@
 <%
     // Get username
     String username = request.getSession().getAttribute("username").toString();
-
     // Create orderID by random integer
     Random rd = new Random();
     String orderID = "SW";

@@ -37,7 +37,7 @@
             <header class="header_section border-bottom">
                 <div class="container-fluid">
                     <nav class="navbar navbar-expand-lg custom_nav-container ">
-                        <a class="navbar-brand" href="index.html">
+                        <a class="navbar-brand" href="/client/index.jsp">
                             <span>Smart Watch Store</span>
                         </a>
 
@@ -76,7 +76,7 @@
                                     <i class="fa fa-cart-plus" aria-hidden="true"></i>
                                 </a>
                                 <% }%>
-                                <a href="">
+                                <a href="/client/watch/watch-list.jsp">
                                     <i class="fa fa-search" aria-hidden="true"></i>
                                 </a>
                             </div>

@@ -3,7 +3,6 @@
 
 <%
     HashMap<String, String> formData = new HashMap<String, String>();
-
     String localPath = Helper.SLIDER_UPLOAD;
 
     if (request.getContentType() != null && request.getContentType().indexOf("multipart/form-data") >= 0) {
@@ -38,16 +37,14 @@
         }
 
         if (formData.get("action").equals("edit")) {
-            sql = "update Sliders set SliderName = '" + formData.get("name") + "', Description = '" + formData.get("description") + "', Thumbnail = '" + formData.get("fileName") + "', Status = '" + formData.get("active") + "' where SliderID = " + formData.get("id");
+            sql = "update sliders set SliderName = '" + formData.get("name") + "', Description = '" + formData.get("description") + "', Thumbnail = '" + formData.get("fileName") + "', Status = '" + formData.get("active") + "' where SliderID = " + formData.get("id");
         }
-
         response.sendRedirect("/admin/slider/list.jsp");
     }
 
     if (request.getParameter("action") != null && request.getParameter("action").equals("delete")) {
         String id = request.getParameter("id");
         sql = "delete from sliders where SliderID = " + id;
-
         response.sendRedirect("/admin/slider/list.jsp");
     }
 %>

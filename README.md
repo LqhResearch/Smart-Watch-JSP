@@ -4,7 +4,7 @@
 - [x] JSP
 - [x] MySQL
 - [x] Netbean 8.2
-- [x] JDK 8
+- [x] Xampp 8.0.16
 
 ## :pushpin: Tính năng
 - Giao diện người dùng
@@ -25,6 +25,6 @@
 
 ## :framed_picture: Giao diện
 - Giao diện người dùng
-![Đăng nhập](/web/assets/img/home.png)
+![Giao diện người dùng](/web/assets/img/home.png)
 - Quản trị viên
 ![Quản trị viên](/web/assets/img/admin.png)

@@ -35,7 +35,7 @@
                 </tr>
             </thead>
             <tbody>
-                <% int i = 1; %>
+                <% int i = 1;%>
                 <c:forEach var = "row" items = "${list.rows}">
                     <tr>
                         <td><%=i++%></td>

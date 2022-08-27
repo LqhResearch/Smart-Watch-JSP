@@ -3,7 +3,6 @@
 
 <%
     HashMap<String, String> formData = new HashMap<String, String>();
-
     String localPath = Helper.PRODUCT_UPLOAD;
 
     if (request.getContentType() != null && request.getContentType().indexOf("multipart/form-data") >= 0) {
@@ -155,7 +154,6 @@
                     <label>Thương hiệu</label>
                     <input type="text" class="form-control" name="trademark" value="${editData.getRows()[0].Trademark}">
                 </div>
-
                 <div class="form-group">
                     <label>Danh mục</label>
                     <select class="form-control select2" name="category">
@@ -192,7 +190,6 @@
                             <tr class="bg-success">
                                 <th>Mã đồng hồ</th>
                                 <th>Tên đồng hồ</th>
-                                <th>Mô tả</th>
                                 <th>Hình ảnh</th>
                                 <th>Giá</th>
                                 <th>Thương hiệu</th>
@@ -205,7 +202,6 @@
                             <tr>
                                 <td>${row.WatchID}</td>
                                 <td>${row.WatchName}</td>
-                                <td>${row.Description}</td>
                                 <td><a href="${row.Thumbnail}" target="_blank"><img height="50" src='${row.Thumbnail}' alt="" /></a></td>
                                 <td>${Helper.Currency(row.Price)}</td>
                                 <td>${row.Trademark}</td>
